@@ -54,18 +54,17 @@ def run_game():
         clock.tick(fps)
         Controls.after_lose(dude, statistics, interface)
 
+    game_result = [False, '']
     if dude.running == -1:
-        return True
+        game_result[0] = True
     if statistics.misses != 0 and dude.running != 1:
-        return (f'accuracy: {round((statistics.shoots - statistics.misses) / statistics.shoots * 1000) / 10}%\n'
-                f'your score is {Controls.score(statistics)}')
-    else:
-        return None
+        game_result[1] = (f'Accuracy: {round((statistics.shoots - statistics.misses) / statistics.shoots * 1000) / 10}'
+                          f'%\nYour score is {Controls.score(statistics)}')
+    return game_result
 
 
 while True:
     result = run_game()
-    if result is True:
+    if result[0] is True:
+        print(result[1])
         break
-    elif result is not None:
-        print(result)
