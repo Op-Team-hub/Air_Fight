@@ -301,12 +301,17 @@ def screen_update(bg_color, background, screen, dude, propeller, bullets, missil
 
 
 def after_lose(dude, statistics, interface):
+    """ Функция, необхрдимая после проигрыша в игре
+    :param dude: объект игрока
+    :param statistics: объект статистики 
+    :param interface: объект интерфейса
+    """
     if statistics.title_cooldown >= 0:
         statistics.title_cooldown -= 1
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             dude.running = -1
-        elif event.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYDOWN and statistics.title_cooldown < 0:
             if event.key == pygame.K_SPACE:
                 dude.running = 1
     interface.show()
