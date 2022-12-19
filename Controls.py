@@ -32,7 +32,7 @@ def events(screen, dude, statistics, bonus, bullets, missiles, thunder):
             elif event.key == pygame.K_SPACE:
                 if statistics.exit:
                     dude.exit()
-                if dude.zeus_strike:
+                elif dude.zeus_strike:
                     new_lighting = ZeusStrike(screen, dude)
                     thunder.add(new_lighting)
                 else:
@@ -279,7 +279,7 @@ def screen_update(bg_color, background, screen, dude, propeller, bullets, missil
     for lighting in thunder:
         lighting.output_projectile()
 
-    if bonus.on_screen is False and statistics.refuel_cooldown <= 0 and statistics.win is False:
+    if bonus.on_screen is False and statistics.refuel_cooldown <= 0:
         bonus.on_screen = True
         if randint(0, 1):
             bonus.rect.centerx = bonus.rect_out.centerx = -30
@@ -290,7 +290,7 @@ def screen_update(bg_color, background, screen, dude, propeller, bullets, missil
             bonus.speed = -1
     elif bonus.on_screen is False:
         statistics.refuel_cooldown -= 1
-    if bonus.rect.centerx < -50 or bonus.rect.centerx > 1000:
+    if bonus.rect.centerx < -50 or bonus.rect.centerx > 1000 or statistics.win:
         bonus.on_screen = False
 
     if bonus.on_screen:
@@ -303,7 +303,7 @@ def screen_update(bg_color, background, screen, dude, propeller, bullets, missil
 def after_lose(dude, statistics, interface):
     """ Функция, необхрдимая после проигрыша в игре
     :param dude: объект игрока
-    :param statistics: объект статистики 
+    :param statistics: объект статистики
     :param interface: объект интерфейса
     """
     if statistics.title_cooldown >= 0:
